@@ -13,22 +13,20 @@ model_id = "text-davinci-003"
 
 # Function to generate a response from the model
 def generate_response(conversation_history, user_input):
-    # Authenticate with OpenAI using the environment variable
     openai.api_key = os.environ["OPENAI_API_KEY"]
     
-    prompt = "You are an English teacher and Conversation Partner. "
-    prompt += conversation_history + user_input
+    prompt = "You are ChatGPT, a large language model trained by OpenAI. "
+    prompt += f"{conversation_history}User: {user_input}\nAI:"
 
-    # Create a completion using the provided prompt
     completions = openai.Completion.create(
         engine=model_id,
         prompt=prompt,
-        max_tokens=300,
+        max_tokens=150,
         n=1,
         stop=None,
         temperature=0.7,
     )
-    # Extract the text from the first choice in the completions
+
     message = completions.choices[0].text
     return message.strip()
 
